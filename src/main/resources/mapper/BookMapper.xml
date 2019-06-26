@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baosight.library.dao.BookDao">
+<!--      <resultMap id="Book" type="com.baosight.library.domain.Book">
+        <id property="" column="id"/>
+        <result property="" column="Name"/>
+        <result property="" column="InTime"/>
+        <result property="" column="Number"/>
+        <result property="" column="BookNo"/>
+        <result property="" column="Type"/>
+        <result property="" column="Status"/>
+        <result property="" column="Author"/>
+    </resultMap> -->
+    
+    <select id="findBooks" parameterType="Map" resultType="com.baosight.library.domain.Book">
+        SELECT * FROM BOOK WHERE 1=1
+        <if test="bookno != null and bookno != ''"> AND bookno  like '%${bookno}%'</if>
+        <if test="bookname != null and bookname != ''"> AND name like '%${bookname}%'</if>
+        <if test="booktype != null and booktype != ''"> AND type = #{booktype}</if>
+        <if test="bookstatus != null and bookstatus != ''"> AND status = #{bookstatus}</if>
+        <if test="order != null and order != ''"> ORDER BY intime DESC</if>
+        limit #{limit} offset #{offset}     
+    </select>
+    
+    <select id="count"  resultType="java.lang.String" parameterType="Map">
+        SELECT COUNT(*) FROM BOOK WHERE 1=1
+        <if test="bookno != null and bookno != ''"> AND bookno=#{bookno}</if>
+    </select>
+    
+    <select id="getTypeList"  resultType="java.lang.String">
+        SELECT DISTINCT TYPE from BOOK 
+    </select>
+    
+    <insert id="addBook"  parameterType="Map">
+       INSERT INTO BOOK(BookNo,name,type,author) VALUES (#{bookno},#{bookname},#{booktype},#{bookauthor})
+    </insert>
+    
+    <update id="updateBook" parameterType="Map">
+        UPDATE BOOK SET name=#{bookname},type=#{booktype},author=#{bookauthor} WHERE id=#{bookid}
+    </update>
+    
+
+</mapper>

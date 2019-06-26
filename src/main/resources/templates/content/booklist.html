@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>书籍管理</title>
+	<meta charset="UTF-8">
+		<title></title>
+		
+		<script src="/jQuery-3.3.1/jquery-3.3.1.min.js"></script>
+		<link rel="stylesheet" href="/bootstrap-3.3.7/css/bootstrap.css" />
+		<link rel="stylesheet" href="/toastr/toastr.min.css" />
+		<link rel="stylesheet" href="/DataTables-1.10.18/css/jquery.dataTables.min.css" />
+		<script type="text/javascript" src="/bootstrap-3.3.7/js/bootstrap.min.js" ></script>
+		<script type="text/javascript" src="/myjs/booklist.js" ></script>
+		<script type="text/javascript" src="/DataTables-1.10.18/js/jquery.dataTables.min.js" ></script>
+		<script type="text/javascript" src="/toastr/toastr.min.js" ></script>
+</head>
+<body>
+
+	<div class="container" style="padding-top: 40px;">
+		<!--整个盒子居中-->
+
+		<div class="form-inline">
+			<div class="form-group">
+				<label>编码</label> <input type="text" class="form-control"
+					id="bookno">
+			</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<div class="form-group">
+				<label>书名</label> <input type="text" class="form-control"
+					id="bookname">
+			</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<div class="form-group">
+				<label>类型</label> <select class="form-control" id="booktype">
+					<option value="">所有</option>
+					<option th:each="type:${booktypelist}" th:value="${type}"
+						th:text="${type}"></option>
+				</select>
+			</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<div class="form-group">
+				<label>状态</label> <select class="form-control" id="bookstatus">
+					<option value="">所有</option>
+					<option value="0">在馆</option>
+					<option value="1">借出</option>
+					<option value="9">报废</option>
+				</select>
+			</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button type="button" class="btn btn-success" id="query">查询</button>
+			&nbsp;&nbsp;
+			<button type="button" class="btn btn-primary" id="reset">重置</button>
+		</div>
+		<br> <br>
+		<table id="example" class="display" style="width: 100%">
+		</table>
+		<button type="button" class="btn btn-success" id="add"
+			data-toggle="modal">增加</button>
+		&nbsp;&nbsp;
+		<button type="button" class="btn btn-warning" id="update">修改</button>
+
+
+		<!--增加模态框-->
+		<div class="modal fade addmd" tabindex="-1" role="dialog"
+			id="addModal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title">增加</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-2 control-label">书籍编码</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="add_bookno">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-2 control-label">书名</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="add_bookname">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-2 control-label">类型</label>
+								<div class="col-sm-10">
+									<select class="form-control" id="add_booktype">
+										<option th:each="type:${booktypelist}" th:value="${type}"
+											th:text="${type}"></option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-2 control-label">作者</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="add_bookauthor">
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary que_add" id="addconfirm">确定</button>
+						<!--确定添加-->
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!--修改模态框-->
+		<div class="modal fade up" tabindex="-1" role="dialog"
+			id="updateModal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title">修改</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-2 control-label">书籍ID</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="update_bookid" readonly="readonly">
+								</div>
+							</div>						
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-2 control-label">书籍编码</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="update_bookno" readonly="readonly">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-2 control-label">书名</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="update_bookname">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-2 control-label">类型</label>
+								<div class="col-sm-10">
+									<select class="form-control" id="update_booktype">
+										<option th:each="type:${booktypelist}" th:value="${type}"
+											th:text="${type}"></option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-2 control-label">作者</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="update_bookauthor">
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary que_update" id="updateconfirm">确定</button>
+						<!--确定修改-->
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+	</div>
+
+
+</body>
+</html>

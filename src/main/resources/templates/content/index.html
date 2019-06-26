@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit">
+  		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>图书管理主页</title>
+		<link rel="stylesheet" type="text/css" href="/admin/layui/css/layui.css"/>
+		<link rel="stylesheet" type="text/css" href="/admin/css/admin.css"/>
+	</head>
+	<body>
+		<div class="main-layout" id='main-layout'>
+			<!--侧边栏-->
+			<div class="main-layout-side">
+				<div class="m-logo">
+				</div>
+				<ul class="layui-nav layui-nav-tree" lay-filter="leftNav">
+				  <li class="layui-nav-item layui-nav-itemed">
+				    <a data-url="/content/lending" data-id='1' data-text="借阅管理"><i class="iconfont">&#xe607;</i>借阅管理</a>
+				  </li>
+				  <li class="layui-nav-item">
+				    <a data-url="/content/booklist" data-id='2' data-text="还书管理"><i class="iconfont">&#xe608;</i>还书管理</a>
+				  </li>
+				  <li class="layui-nav-item">
+				    <a data-url="/content/booklist" data-id='3' data-text="书籍信息"><i class="iconfont">&#xe604;</i>书籍信息</a>
+				  </li>
+				  <li class="layui-nav-item">
+				    <a data-url="/content/borrowerlist" data-id='4' data-text="读者信息"><i class="iconfont">&#xe606;</i>读者信息</a>
+				  </li>
+				</ul>
+			</div>
+			<!--右侧内容-->
+			<div class="main-layout-container">
+				<!--头部-->
+				<div class="main-layout-header">
+					<div class="menu-btn" id="hideBtn">
+						<a href="javascript:;">
+							<span class="iconfont">&#xe60e;</span>
+						</a>
+					</div>
+					<ul class="layui-nav" lay-filter="rightNav">
+					  <li class="layui-nav-item">
+					    <a href="" th:text="${sign}"></a></li>
+					  <li class="layui-nav-item">
+					    <a th:text="${'你好，'+username}"></a>
+					  </li>
+					  <li class="layui-nav-item"><a href="/layout">退出</a></li>
+					</ul>
+				</div>
+				<!--主体内容-->
+				<div class="main-layout-body">
+					<!--tab 切换-->
+					<div class="layui-tab layui-tab-brief main-layout-tab" lay-filter="tab" lay-allowClose="true">
+					  <ul class="layui-tab-title">
+					    <li class="layui-this welcome">主页</li>
+					  </ul>
+					  <div class="layui-tab-content">
+					    <div class="layui-tab-item layui-show" style="background: #f5f5f5;">
+					    	<!--1-->
+					    	<iframe src="/content/welcome" width="100%" height="100%" name="iframe" scrolling="auto" class="iframe" framborder="0"></iframe>
+					    	<!--1end-->
+					    </div>
+					  </div>
+					</div>
+				</div>
+			</div>
+			<!--遮罩-->
+			<div class="main-mask">
+				
+			</div>
+		</div>
+		<script src="/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/admin/js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/admin/js/main.js" type="text/javascript" charset="utf-8"></script>
+		
+	</body>
+</html>

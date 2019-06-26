@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baosight.library.dao.BorrowerDao">
+<!--      <resultMap id="Book" type="com.baosight.library.domain.Book">
+        <id property="" column="id"/>
+        <result property="" column="Name"/>
+        <result property="" column="InTime"/>
+        <result property="" column="Number"/>
+        <result property="" column="BookNo"/>
+        <result property="" column="Type"/>
+        <result property="" column="Status"/>
+        <result property="" column="Author"/>
+    </resultMap> -->
+    
+    <select id="findBorrowers" parameterType="Map" resultType="com.baosight.library.domain.Borrower">
+        SELECT * FROM Borrower WHERE 1=1
+        <if test="workno != null and workno != ''"> AND workno  like '%${workno}%'</if>
+        <if test="name != null and name != ''"> AND name like '%${name}%'</if>
+        <if test="dep != null and dep != ''"> AND dep = #{dep}</if>
+        <if test="status != null and status != ''"> AND status = #{status}</if>
+        <if test="order != null and order != ''"> ORDER BY intime DESC</if>
+        limit #{limit} offset #{offset}     
+    </select>
+    
+    <select id="count"  resultType="java.lang.String" parameterType="Map">
+        SELECT COUNT(*) FROM Borrower WHERE 1=1
+        <if test="workno != null and workno != ''"> AND workno=#{workno}</if>
+    </select>
+    
+    <select id="getTypeList"  resultType="java.lang.String">
+        SELECT DISTINCT TYPE from Borrower 
+    </select>
+    
+    <insert id="addBorrower"  parameterType="Map">
+       INSERT INTO Borrower(workno,name,dep,tele) VALUES (#{workno},#{name},#{dep},#{tele})
+    </insert>
+    
+    <update id="updateBorrower" parameterType="Map">
+        UPDATE Borrower SET name=#{name},dep=#{dep},tele=#{tele} WHERE id=#{id}
+    </update>
+    
+
+</mapper>
